@@ -35,6 +35,16 @@ mysql -u root -p123456 -e "USE demo; SHOW TABLES;"
 ```
 期望看到 16 张表。
 
+然后导入预置的 100 个旅游产品数据：
+```cmd
+mysql -u root -p123456 < sql/product_data.sql
+```
+验证：
+```cmd
+mysql -u root -p123456 -e "SELECT COUNT(*) FROM demo.product;"
+```
+期望看到 100。
+
 ## 步骤4：安装 Redis
 去 https://github.com/microsoftarchive/redis/releases 下载 Windows 版 Redis-x64.msi，安装。
 
