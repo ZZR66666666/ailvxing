@@ -16,6 +16,62 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `username`, `password`, `nickname`, `phone`, `email`, `avatar`, `role`, `status`, `create_time`, `update_time`) VALUES (1,'admin','123456','系统管理员','13800000000',NULL,NULL,2,1,'2026-07-13 12:02:01','2026-07-14 11:09:57'),(2,'agency','agency123','旅行社运营','13800000001',NULL,NULL,1,1,'2026-07-13 12:02:01','2026-07-13 12:02:01'),(3,'zzr','123456','zzr','15566667777',NULL,NULL,0,1,'2026-07-13 12:07:41','2026-07-13 12:07:41'),(4,'test','123456','test','13800138000',NULL,NULL,0,1,'2026-07-13 17:43:36','2026-07-13 17:43:36'),(5,'hello','123456','hello',NULL,NULL,NULL,0,1,'2026-07-13 17:45:02','2026-07-13 17:45:02'),(6,'demo','123456','demo','13800001111',NULL,NULL,0,1,'2026-07-13 17:46:09','2026-07-13 17:46:09'),(7,'zyz','123456','zyz','15578687809',NULL,NULL,0,1,'2026-07-14 10:54:44','2026-07-14 15:09:26'),(8,'cyy','123456','cyy','15625486975','3484963950@qq.com',NULL,0,1,'2026-07-14 12:54:23','2026-07-14 13:29:42');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `product_tag`
+--
+
+LOCK TABLES `product_tag` WRITE;
+/*!40000 ALTER TABLE `product_tag` DISABLE KEYS */;
+INSERT INTO `product_tag` (`id`, `name`, `category`, `create_time`) VALUES (1,'海滩','scene','2026-07-13 12:02:01'),(2,'古镇','scene','2026-07-13 12:02:01'),(3,'山水','scene','2026-07-13 12:02:01'),(4,'都市','scene','2026-07-13 12:02:01'),(5,'高原','scene','2026-07-13 12:02:01'),(6,'亲子','style','2026-07-13 12:02:01'),(7,'情侣','style','2026-07-13 12:02:01'),(8,'独行','style','2026-07-13 12:02:01'),(9,'团建','style','2026-07-13 12:02:01'),(10,'老年','style','2026-07-13 12:02:01'),(11,'春季','season','2026-07-13 12:02:01'),(12,'夏季','season','2026-07-13 12:02:01'),(13,'秋季','season','2026-07-13 12:02:01'),(14,'冬季','season','2026-07-13 12:02:01'),(15,'美食','feature','2026-07-13 12:02:01'),(16,'温泉','feature','2026-07-13 12:02:01'),(17,'滑雪','feature','2026-07-13 12:02:01'),(18,'潜水','feature','2026-07-13 12:02:01'),(19,'徒步','feature','2026-07-13 12:02:01'),(20,'摄影','feature','2026-07-13 12:02:01'),(21,'文化','feature','2026-07-13 12:02:01'),(22,'购物','feature','2026-07-13 12:02:01');
+/*!40000 ALTER TABLE `product_tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `product_tag_relation`
+--
+
+LOCK TABLES `product_tag_relation` WRITE;
+/*!40000 ALTER TABLE `product_tag_relation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_tag_relation` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-07-14 18:55:38
+-- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
+--
+-- Host: localhost    Database: demo
+-- ------------------------------------------------------
+-- Server version	8.0.44
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
 -- Dumping data for table `product`
 --
 
