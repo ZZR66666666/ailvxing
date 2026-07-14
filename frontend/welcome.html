@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>爱出行 · 自助旅行规划系统</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; height: 100%; overflow: hidden;
+            background: #000000; color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        #root { width: 100%; height: 100%; position: relative; }
+
+        .video-background {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 0; pointer-events: none;
+        }
+        .content-overlay {
+            position: relative; z-index: 10;
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+        }
+
+        /* Liquid Glass */
+        .liquid-glass {
+            background: rgba(0, 0, 0, 0.4);
+            background-blend-mode: luminosity;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: none;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative; overflow: hidden;
+        }
+        .liquid-glass::before {
+            content: ''; position: absolute; inset: 0;
+            border-radius: inherit; padding: 1.4px;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 20%,
+                rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+                rgba(255,255,255,0.1) 80%, rgba(255,255,255,0.3) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .char-animate {
+            display: inline-block;
+            transition-property: opacity, transform;
+            transition-timing-function: ease;
+            will-change: opacity, transform;
+        }
+
+        @media (max-width: 767px) {
+            .hero-heading { font-size: 2.25rem; letter-spacing: -0.04em; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .hero-heading { font-size: 3rem; letter-spacing: -0.04em; }
+        }
+        @media (min-width: 1024px) and (max-width: 1279px) {
+            .hero-heading { font-size: 3.75rem; letter-spacing: -0.04em; }
+        }
+        @media (min-width: 1280px) {
+            .hero-heading { font-size: 4.5rem; letter-spacing: -0.04em; }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // 淡入组件
+        const FadeIn = ({ children, delay = 0, duration = 1000, className = '' }) => {
+            const [isVisible, setIsVisible] = useState(false);
+            useEffect(() => {
+                const timer = setTimeout(() => setIsVisible(true), delay);
+                return () => clearTimeout(timer);
+            }, [delay]);
+            return (
+                <div
+                    className={className}
+                    style={{
+                        opacity: isVisible ? 1 : 0,
+                        transitionDuration: `${duration}ms`,
+                        transitionProperty: 'opacity',
+                        transitionTimingFunction: 'ease',
+                    }}
+                >
+                    {children}
+                </div>
+            );
+        };
+
+        // 逐字入场标题
+        const AnimatedHeading = ({ text, className = '' }) => {
+            const [isAnimated, setIsAnimated] = useState(false);
+            const lines = text.split('\n');
+            const charDelay = 30;
+            const initialDelay = 200;
+            const transitionDuration = 500;
+
+            useEffect(() => {
+                const timer = setTimeout(() => setIsAnimated(true), initialDelay);
+                return () => clearTimeout(timer);
+            }, []);
+
+            const renderLine = (line, lineIndex) => {
+                const chars = [];
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    const displayChar = char === ' ' ? ' ' : char;
+                    const lineLength = line.length;
+                    const delay = (lineIndex * lineLength * charDelay) + (i * charDelay);
+                    chars.push(
+                        <span
+                            key={`${lineIndex}-${i}`}
+                            className="char-animate"
+                            style={{
+                                opacity: isAnimated ? 1 : 0,
+                                transform: isAnimated ? 'translateX(0)' : 'translateX(-18px)',
+                                transitionDelay: `${delay}ms`,
+                                transitionDuration: `${transitionDuration}ms`,
+                            }}
+                        >
+                            {displayChar}
+                        </span>
+                    );
+                }
+                return chars;
+            };
+
+            return (
+                <div className={`hero-heading font-normal mb-4 ${className}`}
+                    style={{ letterSpacing: '-0.04em' }}>
+                    {lines.map((line, idx) => (
+                        <div key={idx} className="leading-tight">
+                            {renderLine(line, idx)}
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div className="relative w-full h-full bg-black overflow-hidden">
+                    {/* 视频背景 */}
+                    <video
+                        className="video-background"
+                        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4"
+                        autoPlay loop muted playsInline
+                    />
+
+                    {/* 内容层 */}
+                    <div className="content-overlay">
+                        {/* 导航栏 */}
+                        <nav className="px-6 md:px-12 lg:px-16 pt-6 flex-shrink-0">
+                            <div className="liquid-glass rounded-xl px-4 py-2 flex items-center justify-between">
+                                {/* Logo */}
+                                <span className="text-2xl font-semibold tracking-tight text-white">
+                                    🌍 爱出行
+                                </span>
+
+                                {/* 导航链接 */}
+                                <div className="hidden md:flex items-center gap-8 text-sm text-white">
+                                    <a href="/plan" className="hover:text-gray-300 transition-colors duration-200">智能规划</a>
+                                    <a href="/product" className="hover:text-gray-300 transition-colors duration-200">旅游产品</a>
+                                    <a href="/order" className="hover:text-gray-300 transition-colors duration-200">我的订单</a>
+                                    <a href="/profile" className="hover:text-gray-300 transition-colors duration-200">个人中心</a>
+                                </div>
+
+                                {/* 登录按钮 */}
+                                <a href="/login"
+                                    className="bg-white text-black px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors duration-200 no-underline">
+                                    立即登录
+                                </a>
+                            </div>
+                        </nav>
+
+                        {/* 主内容 */}
+                        <div className="flex-1 flex flex-col justify-end px-6 md:px-12 lg:px-16 pb-12 lg:pb-16">
+                            <div className="lg:grid lg:grid-cols-2 lg:items-end gap-8">
+                                {/* 左栏 */}
+                                <div>
+                                    <AnimatedHeading
+                                        text="AI 驱动的智能旅行&#10;从这里开始"
+                                        className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
+                                    />
+
+                                    <FadeIn delay={800} duration={1000}>
+                                        <p className="text-base md:text-lg text-gray-300 mb-5">
+                                            输入目的地、天数和偏好，AI 大模型即刻为你生成个性化旅行方案，一键预订产品，轻松出发。
+                                        </p>
+                                    </FadeIn>
+
+                                    <FadeIn delay={1200} duration={1000}>
+                                        <div className="flex flex-wrap gap-4">
+                                            <a href="/login"
+                                                className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200 no-underline inline-block">
+                                                开始规划
+                                            </a>
+                                            <a href="/product"
+                                                className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition-all duration-200 no-underline inline-block">
+                                                浏览产品
+                                            </a>
+                                        </div>
+                                    </FadeIn>
+                                </div>
+
+                                {/* 右栏 */}
+                                <div className="flex items-end justify-start lg:justify-end mt-6 lg:mt-0">
+                                    <FadeIn delay={1400} duration={1000}>
+                                        <div className="liquid-glass border border-white/20 px-6 py-3 rounded-xl">
+                                            <span className="text-lg md:text-xl lg:text-2xl font-light text-white">
+                                                🗺️ 规划 · 🏨 预订 · ✈️ 出发
+                                            </span>
+                                        </div>
+                                    </FadeIn>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(<App />);
+    </script>
+</body>
+</html>
