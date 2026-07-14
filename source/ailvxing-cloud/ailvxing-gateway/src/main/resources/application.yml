@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ailvxing-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        service: ${spring.application.name}
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # 用户服务
+        - id: user-service
+          uri: lb://ailvxing-user
+          predicates:
+            - Path=/api/user/**,/api/companion/**,/api/preference/**,/api/admin/user/**,/api/admin/users,/api/admin/review/**,/api/admin/reviews,/api/admin/stats/**
+        # 产品服务
+        - id: product-service
+          uri: lb://ailvxing-product
+          predicates:
+            - Path=/api/product/**,/api/review/**,/api/admin/product/**
+        # 规划服务
+        - id: plan-service
+          uri: lb://ailvxing-plan
+          predicates:
+            - Path=/api/plan/**,/api/admin/ai/**
+        # 订单服务
+        - id: order-service
+          uri: lb://ailvxing-order
+          predicates:
+            - Path=/api/order/**,/api/admin/order/**,/api/admin/orders/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin

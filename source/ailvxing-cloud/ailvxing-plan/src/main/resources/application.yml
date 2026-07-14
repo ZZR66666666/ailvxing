@@ -1,0 +1,48 @@
+server:
+  port: 8003
+
+spring:
+  application:
+    name: ailvxing-plan
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        service: ${spring.application.name}
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# DeepSeek AI 配置
+ai:
+  deepseek:
+    api-key: sk-614f319a40c2417c95e6dd6156fdc594
+    base-url: https://api.deepseek.com
+    model: deepseek-chat
+
+jwt:
+  secret: aiChuXingTravelPlanningSystemSecretKey2024VeryLong
+  expiration: 86400000
+
+# OpenFeign 超时配置（AI调用可能很久）
+spring.cloud.openfeign.client.config.default:
+  connectTimeout: 5000
+  readTimeout: 120000
+
+# Qdrant 向量数据库
+qdrant:
+  url: https://88854454-80b5-49e6-bd23-ae83c5b5a623.europe-west3-0.gcp.cloud.qdrant.io:6333
+  api-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIiwic3ViamVjdCI6ImFwaS1rZXk6YmU1NGNlOWQtMGFmZS00YWEwLWE5Y2UtY2YwN2E5NGM1YWVjIn0.Gqx4rSTqHswuY5Pi62FkuoYuyZ4fCY_C3fI8G_Bdjr4
